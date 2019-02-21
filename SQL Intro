@@ -1,0 +1,72 @@
+# Objective How many countries are there?
+SELECT count(distinct(country_name))
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+#Answer - 258.
+
+# Objective which country has the maximum value?
+SELECT country_name,max(value) 
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+GROUP BY country_name
+#Answer - Uzbekistan. 3.23872E7 and so on.
+
+# Objective which country has the minimum value?
+ SELECT country_name,min(value) 
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+GROUP BY country_name
+#Answer - Nepal - (-1023896.0) and so on.
+
+# Which year was the latest data collected and of which country?
+SELECT country_name,max(year) 
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+GROUP BY country_name
+#Answer - 2018 - Uzbekistan, 2018 - Mexico and so on. 
+
+# Which year did they start collecting the data and of which country?
+SELECT country_name,min(year) 
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+GROUP BY country_name
+#Answer - Central Africa 1960, Cuba 1960 and so on. 
+
+# Where the indicator was unemployment, female (% of female labor force)?
+SELECT *
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+WHERE indicator_name="Unemployment, female (% of female labor force)"
+#Answer - Least developed countries: UN classification, Central African Republic, Pakistan, Samoa and so on. 
+
+# Where the indicator was Labor force, total?
+SELECT *
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+WHERE indicator_name="Labor force, total”
+#Answer - Lebanon, Bulgaria, Guam and so on. 
+
+# Where the indicator was average of values of all countries?
+SELECT country_name,avg(value)
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+GROUP BY country_name
+#Answer - Uzbekistan - 660805.284575794, Nepal - 609517.171640628, and so on. 
+
+# sing left join to take country name from health data and its corresponding indicator from education data?
+SELECT `bigquery-public-data.world_bank_health_population.health_nutrition_population`.country_name,`bigquery-public-data.world_bank_intl_education.international_education`.indicator_name
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+LEFT JOIN   `bigquery-public-data.world_bank_intl_education.international_education`
+ON `bigquery-public-data.world_bank_health_population.health_nutrition_population`.country_name=`bigquery-public-data.world_bank_intl_education.international_education`.country_name
+Limit 10
+#Answer - Faroe Island - Internet users (per 100 people), Faroe Island - Population, total and so on. 
+
+#Using left join to take country name from health data and its corresponding values from education data?
+SELECT `bigquery-public-data.world_bank_health_population.health_nutrition_population`.country_name,`bigquery-public-data.world_bank_intl_education.international_education`.VALUE
+FROM
+  `bigquery-public-data.world_bank_health_population.health_nutrition_population`
+LEFT JOIN  `bigquery-public-data.world_bank_intl_education.international_education`
+ON `bigquery-public-data.world_bank_health_population.health_nutrition_population`.country_name=`bigquery-public-data.world_bank_intl_education.international_education`.country_name
+Limit 10
+#Answer - Faroe Islands - 75.18, Faroe Islands - 7526.0 and so on.
